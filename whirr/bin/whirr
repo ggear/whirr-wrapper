@@ -1,0 +1,14 @@
+#!/bin/sh
+
+cd "$WHIRR_HOME"/log
+
+if [ $# -le 0 ]; then
+	/usr/bin/whirr
+	exit 1
+fi
+
+CMD="$1"
+shift
+
+/usr/bin/whirr "$CMD" --config ../cfg/hadoop.properties "$@"
+
