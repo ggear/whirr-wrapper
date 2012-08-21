@@ -14,17 +14,21 @@ whirr list-cluster | grep -v "Running " > $TMP_FILE
 echo "done"
 
 line_item
-echo "Cluster (Full Details):"
+echo "Whirr Cluster:" && echo ""
 cat $TMP_FILE | grep -v "Running "
 
 line_item
-echo "Cluster (Cloudera Manager Server IP):"
+echo "CM Server IP:" && echo ""
 cat $TMP_FILE | grep "cmserver" | cut -d: -f2 | awk '{print $3}'
 
 line_item
-echo "Cluster (Cloudera Cluster Node IPs):"
+echo "CM Server URL:" && echo ""
+echo 'http://'`dig +short -x $(cat  $TMP_FILE | grep cmserver| cut -d: -f2 | awk '{print $3}') | head -c -2`':7180'
+
+line_item
+echo "CDH Node IPs:" && echo ""
 cat $TMP_FILE | grep "cmnode" | cut -d: -f2 | awk '{print $3}'
 
 line_item
 
-  
+rm -rf $TMP_DIR

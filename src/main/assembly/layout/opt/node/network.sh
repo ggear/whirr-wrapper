@@ -21,7 +21,7 @@ line_item_cmd '/sbin/ifconfig eth0'
 line_item_file '/etc/hosts'
 line_item_file '/etc/sysconfig/network'
 line_item_file '/etc/hostname'
-line_item_cmd '/usr/bin/nslookup '`hostname -f`
+line_item_cmd '/usr/bin/dig +short '`hostname -f`
 line_item_cmd '/bin/traceroute '`hostname -f`
 line_item_cmd '/bin/ping -c 3 -i 1 -R '`hostname -f`
 line_item_cmd '/usr/bin/host '`hostname -f`
