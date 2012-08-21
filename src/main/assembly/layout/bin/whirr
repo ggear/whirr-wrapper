@@ -1,19 +1,24 @@
 #!/bin/sh
 
 if [ -z "${WHIRR_HOME+xxx}" ]; then
-  WHIRR_HOME=$(pwd)/..
+  echo "WHIRR_HOME not set"
+  exit 1
 fi
 
-mkdir -p "$WHIRR_HOME"/log
-cd "$WHIRR_HOME"/log
+if [ -z "${WHIRR_WRAPPER_HOME+xxx}" ]; then
+  WHIRR_WRAPPER_HOME=$(pwd)/..
+fi
+
+mkdir -p "$WHIRR_WRAPPER_HOME"/log
+cd "$WHIRR_WRAPPER_HOME"/log
 
 if [ $# -le 0 ]; then
-	/usr/bin/whirr
+	$WHIRR_HOME/whirr
 	exit 1
 fi
 
 CMD="$1"
 shift
 
-/usr/bin/whirr "$CMD" --config ../cfg/hadoop.properties "$@"
+$WHIRR_HOME/whirr "$CMD" --config ../cfg/cluster.properties "$@"
 
