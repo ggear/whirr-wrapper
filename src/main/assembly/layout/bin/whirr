@@ -22,3 +22,7 @@ shift
 
 $WHIRR_HOME/bin/whirr "$CMD" --config ../cfg/cluster.properties "$@"
 
+if [ "$CMD" = "launch-cluster" ]; then
+  $WHIRR_HOME/bin/whirr run-script --config ../cfg/cluster.properties --script $WHIRR_WRAPPER_HOME/opt/network.sh
+  $WHIRR_HOME/bin/whirr run-script --config ../cfg/cluster.properties --script $WHIRR_WRAPPER_HOME/opt/service.sh
+fi
