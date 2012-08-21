@@ -13,12 +13,12 @@ mkdir -p "$WHIRR_WRAPPER_HOME"/log
 cd "$WHIRR_WRAPPER_HOME"/log
 
 if [ $# -le 0 ]; then
-	$WHIRR_HOME/whirr
+	$WHIRR_HOME/bin/whirr
 	exit 1
 fi
 
 CMD="$1"
 shift
 
-$WHIRR_HOME/whirr "$CMD" --config ../cfg/cluster.properties "$@"
+$WHIRR_HOME/bin/whirr "$CMD" --config ../cfg/cluster.properties "$@"
 
