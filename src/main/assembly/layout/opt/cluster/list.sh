@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ -z "${WHIRR_HOME+xxx}" ]; then
+  echo "WHIRR_HOME not set"
+  exit 1
+fi
+
 function line_item_header() {
   echo "-------------------------------------------------------------------------------" && echo "$1" && echo "-------------------------------------------------------------------------------" && echo "" 
 }
@@ -49,11 +54,8 @@ TMP_DIR=`mktemp -d $TMP_DIR_TEMPLATE`
 TMP_FILE="$TMP_DIR/whirr_list-cluster.txt"
 
 echo ""
-line_item_header ""
-echo ""
-
 line_item_header "Whirr Cluster"
-whirr list-cluster | grep -v "Running " > $TMP_FILE
+$WHIRR_HOME/bin/whirr list-cluster --config ../cfg/cluster.properties | grep -v "Running " > $TMP_FILE
 cat $TMP_FILE
 echo ""
 
@@ -61,10 +63,9 @@ line_items_url "CM Servers" "cmserver" "7180"
 line_items_host "CM Nodes" "cmnode"
 line_items_url "CDH Name Nodes" "hadoop-namenode" "50070" 
 line_items_url "CDH Job Trackers Nodes" "hadoop-jobtracker" "50030" 
-line_items_url "CDH Data Nodes" "hadoop-datanode" "50010" 
-line_items_url "CDH Task Tracker Nodes" "hadoop-tasktracker" "50060" 
+line_items_url "CDH Data Nodes" "hadoop-datanode" "50075" "logs" 
+line_items_url "CDH Task Tracker Nodes" "hadoop-tasktracker" "50060"
 
-line_item_header ""
 echo ""
 
 rm -rf $TMP_DIR

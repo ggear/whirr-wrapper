@@ -20,11 +20,14 @@ fi
 CMD="$1"
 shift
 
-$WHIRR_HOME/bin/whirr "$CMD" --config ../cfg/cluster.properties "$@"
-
 if [ "$CMD" = "launch-cluster" ]; then
+  $WHIRR_HOME/bin/whirr "launch-cluster" --config ../cfg/cluster.properties "$@"
   $WHIRR_HOME/bin/whirr run-script --config ../cfg/cluster.properties --script $WHIRR_WRAPPER_HOME/opt/node/network.sh
   $WHIRR_HOME/bin/whirr run-script --config ../cfg/cluster.properties --script $WHIRR_WRAPPER_HOME/opt/node/service.sh
   $WHIRR_WRAPPER_HOME/opt/cluster/list.sh
+elif [ "$CMD" = "list-cluster" ]; then
+  $WHIRR_WRAPPER_HOME/opt/cluster/list.sh
+else
+  $WHIRR_HOME/bin/whirr "$CMD" --config ../cfg/cluster.properties "$@"
 fi
 
