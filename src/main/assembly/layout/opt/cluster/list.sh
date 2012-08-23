@@ -44,7 +44,6 @@ function line_items_url() {
   fi
 }
 
-
 TMP_DIR_TEMPLATE="/tmp/`echo ${0%/} | awk -F/ '{print \$NF}'`.XXXXXXXXXXXXXX"
 TMP_DIR=`mktemp -d $TMP_DIR_TEMPLATE`
 TMP_FILE="$TMP_DIR/whirr_list-cluster.txt"
@@ -69,4 +68,3 @@ line_item_header ""
 echo ""
 
 rm -rf $TMP_DIR
-
