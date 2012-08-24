@@ -55,7 +55,7 @@ TMP_FILE="$TMP_DIR/whirr_list-cluster.txt"
 
 echo ""
 line_item_header "Whirr Cluster"
-$WHIRR_HOME/bin/whirr list-cluster --config ../cfg/cluster.properties | grep -v "Running " > $TMP_FILE
+$WHIRR_HOME/bin/whirr list-cluster --config ../cfg/$CLUSTER_NAME.properties | grep -v "Running " > $TMP_FILE
 cat $TMP_FILE
 echo ""
 

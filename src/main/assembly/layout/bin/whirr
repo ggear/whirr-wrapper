@@ -5,6 +5,8 @@ if [ -z "${WHIRR_HOME+xxx}" ]; then
   exit 1
 fi
 
+export CLUSTER_NAME="cdh-cluster"
+
 if [ -z "${WHIRR_WRAPPER_HOME+xxx}" ]; then
   WHIRR_WRAPPER_HOME=$(pwd)/..
 fi
@@ -21,13 +23,17 @@ CMD="$1"
 shift
 
 if [ "$CMD" = "launch-cluster" ]; then
-  $WHIRR_HOME/bin/whirr "launch-cluster" --config ../cfg/cluster.properties "$@"
-  $WHIRR_HOME/bin/whirr run-script --config ../cfg/cluster.properties --script $WHIRR_WRAPPER_HOME/opt/node/network.sh
-  $WHIRR_HOME/bin/whirr run-script --config ../cfg/cluster.properties --script $WHIRR_WRAPPER_HOME/opt/node/service.sh
+  $WHIRR_HOME/bin/whirr "launch-cluster" --config ../cfg/$CLUSTER_NAME.properties
+  nohup /$HOME/.whirr/$CLUSTER_NAME/hadoop-proxy.sh  1>&2 /dev/null &
+  export HADOOP_CONF_DIR=$HOME/.whirr/$CLUSTER_NAME
   $WHIRR_WRAPPER_HOME/opt/cluster/list.sh
+elif [ "$CMD" = "destroy-cluster" ]; then
+  export -n HADOOP_CONF_DIR
+  ps x | grep ssh | grep whirr | grep 6666 | grep -v grep |awk '{print $1}' | tr -s '\n' ' ' | xargs -n 1 -I £ kill -9 £ 1>&2 /dev/null
+  $WHIRR_HOME/bin/whirr "destroy-cluster" --config ../cfg/$CLUSTER_NAME.properties
 elif [ "$CMD" = "list-cluster" ]; then
   $WHIRR_WRAPPER_HOME/opt/cluster/list.sh
 else
-  $WHIRR_HOME/bin/whirr "$CMD" --config ../cfg/cluster.properties "$@"
+  $WHIRR_HOME/bin/whirr "$CMD" --config ../cfg/$CLUSTER_NAME.properties "$@"
 fi
 
