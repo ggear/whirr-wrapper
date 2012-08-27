@@ -5,6 +5,10 @@ if [ -z "${WHIRR_HOME+xxx}" ]; then
   exit 1
 fi
   
+if [ -z "${WHIRR_WRAPPER_HOME+xxx}" ]; then
+  WHIRR_WRAPPER_HOME=$(pwd)/../..
+fi  
+  
 source $WHIRR_WRAPPER_HOME/bin/whirr.env
 
 if [ ! -d "$HOME/.whirr/$CLUSTER_NAME" ]; then
@@ -62,7 +66,7 @@ TMP_FILE="$TMP_DIR/whirr_list-cluster.txt"
 
 echo ""
 line_item_header "Whirr Cluster"
-$WHIRR_HOME/bin/whirr list-cluster --config ../cfg/$CLUSTER_NAME.properties | grep -v "Running " > $TMP_FILE
+$WHIRR_HOME/bin/whirr list-cluster --config $WHIRR_WRAPPER_HOME/cfg/$CLUSTER_NAME.properties | grep -v "Running " > $TMP_FILE
 cat $TMP_FILE
 echo ""
 
