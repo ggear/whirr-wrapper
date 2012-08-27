@@ -1,0 +1,19 @@
+#!/bin/sh
+
+source $WHIRR_WRAPPER_HOME/bin/whirr.env
+
+if [ ! -d "$HOME/.whirr/$CLUSTER_NAME" ]; then
+  echo "Whirr cluster not initialised"
+  exit 1
+fi
+
+if [ $(ps x | grep ssh | grep whirr | grep 6666 | grep -v grep | wc -l) -eq 0 ]; then
+  echo "Whirr cluster ssh tunnel proxy not running"
+  exit 1
+fi
+
+export HADOOP_ROOT_LOGGER="ERROR,console"
+export HADOOP_SECURITY_LOGGER="OFF,console"
+export HDFS_AUDIT_LOGGER="OFF,console"
+
+hadoop --config $HOME/.whirr/$CLUSTER_NAME "$@"

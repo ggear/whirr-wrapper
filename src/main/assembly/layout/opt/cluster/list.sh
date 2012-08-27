@@ -4,7 +4,14 @@ if [ -z "${WHIRR_HOME+xxx}" ]; then
   echo "WHIRR_HOME not set"
   exit 1
 fi
+  
+source $WHIRR_WRAPPER_HOME/bin/whirr.env
 
+if [ ! -d "$HOME/.whirr/$CLUSTER_NAME" ]; then
+  echo "Whirr cluster not initialised"
+  exit 1
+fi  
+  
 function line_item_header() {
   echo "-------------------------------------------------------------------------------" && echo "$1" && echo "-------------------------------------------------------------------------------" && echo "" 
 }
