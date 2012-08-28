@@ -1,0 +1,12 @@
+#!/bin/sh
+
+source $WHIRR_WRAPPER_HOME/bin/whirr.env
+
+if [ ! -d "$HOME/.whirr/$CLUSTER_NAME" ]; then
+  echo "Whirr cluster not initialised"
+  exit 1
+fi
+
+mkdir -p $CLUSTER_FUSE_MOUNT/$CLUSTER_NAME
+hadoop-fuse-dfs $(grep "hdfs://" $HOME/.whirr/$CLUSTER_NAME/hadoop-site.xml | sed 's/<value>h\(.*\)\/<\/value>/\1/') $CLUSTER_FUSE_MOUNT/$CLUSTER_NAME > /dev/null
+

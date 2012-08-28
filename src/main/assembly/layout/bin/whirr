@@ -33,12 +33,14 @@ fi
 if [ "$CMD" = "launch-cluster" ]; then
   $WHIRR_HOME/bin/whirr "launch-cluster" --config ../cfg/$CLUSTER_NAME.properties
   nohup $HOME/.whirr/$CLUSTER_NAME/hadoop-proxy.sh 1>&2 /dev/null &
-  $WHIRR_WRAPPER_HOME/bin/whirr-list.sh
+  $WHIRR_WRAPPER_HOME/bin/whirr-mount
+  $WHIRR_WRAPPER_HOME/bin/whirr-list
 elif [ "$CMD" = "destroy-cluster" ]; then
+  $WHIRR_WRAPPER_HOME/bin/whirr-umount
   ps x | grep ssh | grep whirr | grep 6666 | grep -v grep |awk '{print $1}' | tr -s '\n' ' ' | sed 's/\(.*\)./\1/' | xargs -n 1 -I £ kill -9 £
   $WHIRR_HOME/bin/whirr "destroy-cluster" --config ../cfg/$CLUSTER_NAME.properties
 elif [ "$CMD" = "list-cluster" ]; then
-  $WHIRR_WRAPPER_HOME/bin/whirr-list.sh
+  $WHIRR_WRAPPER_HOME/bin/whirr-list
 elif [ "$CMD" = "run-script" ]; then
   SCRIPT="$1"
   shift
