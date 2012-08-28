@@ -45,6 +45,10 @@ elif [ "$CMD" = "run-script" ]; then
   SCRIPT="$1"
   shift
   $WHIRR_HOME/bin/whirr "run-script" --config $WHIRR_WRAPPER_HOME/cfg/$CLUSTER_NAME.properties --script "$WHIRR_WRAPPER_HOME/opt/$SCRIPT.sh" "$@"  
+elif [ "$CMD" = "mount-cluster" ]; then
+  $WHIRR_WRAPPER_HOME/bin/whirr-mount
+elif [ "$CMD" = "umount-cluster" ]; then
+  $WHIRR_WRAPPER_HOME/bin/whirr-umount
 elif [ "$CMD" = "help" ]; then
   $WHIRR_HOME/bin/whirr "help" "$@"
 else
