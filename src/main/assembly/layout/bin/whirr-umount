@@ -1,10 +1,10 @@
 #!/bin/sh
 
-source $WHIRR_WRAPPER_HOME/bin/whirr.env
+source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
 
-if [ ! -d "$HOME/.whirr/$CLUSTER_NAME" ]; then
+if [ ! $CLUSTER_LAUNCHED ]; then
   echo "Whirr cluster not initialised"
   exit 1
 fi
 
-umount $CLUSTER_FUSE_MOUNT/$CLUSTER_NAME
+umount $CLUSTER_FUSE_MOUNT/$CLUSTER_NAME > /dev/null 2>&1

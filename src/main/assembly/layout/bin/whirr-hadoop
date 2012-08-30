@@ -1,14 +1,9 @@
 #!/bin/sh
 
-source $WHIRR_WRAPPER_HOME/bin/whirr.env
+source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
 
-if [ ! -d "$HOME/.whirr/$CLUSTER_NAME" ]; then
+if [ ! $CLUSTER_LAUNCHED ]; then
   echo "Whirr cluster not initialised"
-  exit 1
-fi
-
-if [ $(ps x | grep ssh | grep whirr | grep 6666 | grep -v grep | wc -l) -eq 0 ]; then
-  echo "Whirr cluster ssh tunnel proxy not running"
   exit 1
 fi
 

@@ -1,17 +1,8 @@
 #!/bin/sh
 
-if [ -z "${WHIRR_HOME+xxx}" ]; then
-  echo "WHIRR_HOME not set"
-  exit 1
-fi
-  
-if [ -z "${WHIRR_WRAPPER_HOME+xxx}" ]; then
-  WHIRR_WRAPPER_HOME=$(pwd)/../..
-fi  
-  
-source $WHIRR_WRAPPER_HOME/bin/whirr.env
+source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
 
-if [ ! -d "$HOME/.whirr/$CLUSTER_NAME" ]; then
+if [ ! $CLUSTER_LAUNCHED ]; then
   echo "Whirr cluster not initialised"
   exit 1
 fi  

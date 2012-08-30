@@ -1,15 +1,6 @@
 #!/bin/sh
 
-if [ -z "${WHIRR_HOME+xxx}" ]; then
-  echo "WHIRR_HOME not set"
-  exit 1
-fi
-
-if [ -z "${WHIRR_WRAPPER_HOME+xxx}" ]; then
-  WHIRR_WRAPPER_HOME=$(pwd)/..
-fi
-
-source $WHIRR_WRAPPER_HOME/bin/whirr.env
+source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
 
 mkdir -p "$WHIRR_WRAPPER_HOME"/log
 cd "$WHIRR_WRAPPER_HOME"/log
@@ -22,22 +13,22 @@ fi
 CMD="$1"
 shift
 
-if [ "$CMD" != "launch" ] && [ ! -d "$HOME/.whirr/$CLUSTER_NAME" ]; then
+if [ "$CMD" != "launch" ] && [ ! $CLUSTER_LAUNCHED ]; then
   echo "Whirr cluster not initialised"
   exit 1
-elif [ "$CMD" = "launch" ] && [ -d "$HOME/.whirr/$CLUSTER_NAME" ]; then
+elif [ "$CMD" = "launch" ] && [ $CLUSTER_LAUNCHED ]; then
   echo "Whirr cluster already initialised"
   exit 1
 fi
 
 if [ "$CMD" = "launch" ]; then
   $WHIRR_HOME/bin/whirr "launch-cluster" --config ../cfg/$CLUSTER_NAME.properties
-  nohup $HOME/.whirr/$CLUSTER_NAME/hadoop-proxy.sh 1>&2 /dev/null &
+  $WHIRR_WRAPPER_HOME/bin/whirr-client
   $WHIRR_WRAPPER_HOME/bin/whirr-mount
   $WHIRR_WRAPPER_HOME/bin/whirr-list
 elif [ "$CMD" = "destroy" ]; then
+  $WHIRR_WRAPPER_HOME/bin/whirr-client-clean
   $WHIRR_WRAPPER_HOME/bin/whirr-umount
-  ps x | grep ssh | grep whirr | grep 6666 | grep -v grep |awk '{print $1}' | tr -s '\n' ' ' | sed 's/\(.*\)./\1/' | xargs -n 1 -I £ kill -9 £
   $WHIRR_HOME/bin/whirr "destroy-cluster" --config ../cfg/$CLUSTER_NAME.properties
 elif [ "$CMD" = "list" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-list
@@ -49,6 +40,8 @@ elif [ "$CMD" = "mount" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-mount
 elif [ "$CMD" = "umount" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-umount
+elif [ "$CMD" = "client" ]; then
+  $WHIRR_WRAPPER_HOME/bin/whirr-client
 elif [ "$CMD" = "examples" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar "$@" 
 elif [ "$CMD" = "help" ]; then
