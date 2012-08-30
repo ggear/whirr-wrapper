@@ -25,3 +25,10 @@ else
     fi 
   done
 fi
+
+source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
+
+if [ -z "${CLUSTER_NAMENODE+xxx}" ]; then
+  echo "Whirr cluster not initialised"
+  exit 1
+fi

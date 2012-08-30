@@ -2,7 +2,7 @@
 
 source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
 
-if [ ! $CLUSTER_LAUNCHED ]; then
+if [ ! $CLUSTER_LAUNCHED ] || [ -z "${CLUSTER_NAMENODE+xxx}" ]; then
   echo "Whirr cluster not initialised"
   exit 1
 fi
