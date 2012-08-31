@@ -32,11 +32,13 @@ function line_item_ssh() {
 }
 
 function line_items_host() {
-	if [ $(line_item_line "$2" | wc -l) -gt 0 ]; then 
+	if [ $(line_item_line "$2" | wc -l) -gt 0 ] || [ $(line_item_line "$3" | wc -l) -gt 0 ]; then 
 	  line_item_header "$1"
 	  line_item_host "$2"
+	  line_item_host "$3"
 	  echo ""
 	  line_item_ssh "$2"
+	  line_item_ssh "$3"
 	  echo ""
 	fi
 }
@@ -62,7 +64,7 @@ cat $TMP_FILE
 echo ""
 
 line_items_url "CM Servers" "cmserver" "7180" 
-line_items_host "CM Nodes" "cmnode"
+line_items_host "CM Nodes" "cmserver" "cmnode"
 line_items_url "CDH Name Nodes" "hadoop-namenode" "50070" 
 line_items_url "CDH Job Trackers Nodes" "hadoop-jobtracker" "50030" 
 line_items_url "CDH Data Nodes" "hadoop-datanode" "50075" "logs" 

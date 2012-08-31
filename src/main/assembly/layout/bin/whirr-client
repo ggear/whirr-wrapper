@@ -13,7 +13,7 @@ if [ "$CLUSTER_TYPE" = "CDH" ]; then
   nohup $HOME/.whirr/$CLUSTER_NAME/hadoop-proxy.sh > /dev/null 2>&1 &
 else
   CLIENT_CONFIG_URL="http://"$(grep cmserver "$HOME/.whirr/$CLUSTER_NAME/instances" | cut -d: -f3 | awk '{print $3}')":7180/cmf/services/"
-  for ID in {20..1}; do
+  for ID in {50..1}; do
     if [ $(curl -sI "$CLIENT_CONFIG_URL$ID/client-config" | grep "HTTP/1.1 200 OK\|mapreduce" | wc -l) -eq 2 ]; then
       cd "$HOME/.whirr/$CLUSTER_NAME"
       curl -sO "$CLIENT_CONFIG_URL$ID/client-config"
@@ -21,14 +21,13 @@ else
       rm -rf "client-config"
       mv hadoop-conf/* ./
       rm -rf hadoop-conf
+      CLIENT_CONFIG_FOUND=true
       break;
     fi 
   done
 fi
 
-source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
-
-if [ -z "${CLUSTER_NAMENODE+xxx}" ]; then
-  echo "Whirr cluster not initialised"
+if [ ! $CLIENT_CONFIG_FOUND ]; then
+  echo "Unable to download client config"
   exit 1
 fi
