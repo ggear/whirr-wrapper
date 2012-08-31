@@ -4,6 +4,6 @@ function line_item_header() {
   echo "-------------------------------------------------------------------------------" && echo "$1" && echo "-------------------------------------------------------------------------------" && echo "" 
 }
 
-line_item_header $(hostname)
+line_item_header "Date "$(hostname)
 date  
 echo "" 
