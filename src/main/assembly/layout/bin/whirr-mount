@@ -2,10 +2,7 @@
 
 source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
 
-if [ ! $CLUSTER_LAUNCHED ] || [ -z "${CLUSTER_NAMENODE+xxx}" ]; then
-  echo "Whirr cluster not initialised"
-  exit 1
-fi
+assertClusterInitialised
 
 mkdir -p $CLUSTER_FUSE_MOUNT/$CLUSTER_NAME
 hadoop-fuse-dfs $CLUSTER_NAMENODE $CLUSTER_FUSE_MOUNT/$CLUSTER_NAME > /dev/null

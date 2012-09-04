@@ -2,10 +2,7 @@
 
 source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
 
-if [ ! $CLUSTER_LAUNCHED ]; then
-  echo "Whirr cluster not initialised"
-  exit 1
-fi
+assertClusterInitialised
 
 $WHIRR_WRAPPER_HOME/bin/whirr-client-clean
 

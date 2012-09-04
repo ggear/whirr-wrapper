@@ -4,4 +4,7 @@ source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
 
 assertClusterInitialised
 
-umount $CLUSTER_FUSE_MOUNT/$CLUSTER_NAME > /dev/null 2>&1
+
+
+
+
