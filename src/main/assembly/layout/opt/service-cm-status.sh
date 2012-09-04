@@ -10,10 +10,15 @@ function line_item_cmd() {
   echo "" 
 }
 
-echo ""
-
-line_item_cmd '/bin/date'  
-line_item_cmd '/usr/bin/ntpstat'
+SERVICE_CMD='status'
+SERVICE_PREFIX='cloudera'
 
 echo ""
 
+if ls /etc/init.d/$SERVICE_PREFIX-* &> /dev/null; then
+  for SERVICE_SCRIPT in /etc/init.d/$SERVICE_PREFIX-*; do
+    line_item_cmd "sudo $SERVICE_SCRIPT $SERVICE_CMD"
+  done
+fi 
+
+echo ""

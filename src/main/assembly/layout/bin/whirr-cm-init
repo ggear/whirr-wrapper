@@ -1,0 +1,9 @@
+#!/bin/sh
+
+source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
+
+assertClusterInitialised
+
+if [ "$CLUSTER_TYPE" = "CM" ] && [ "$CLUSTER_TYPE_ORIG" = "CDH" ]; then
+  $WHIRR_WRAPPER_HOME/bin/whirr run service-cdh-stop
+fi
