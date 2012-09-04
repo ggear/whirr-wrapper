@@ -6,9 +6,7 @@ assertClusterInitialised
 
 $WHIRR_WRAPPER_HOME/bin/whirr-client-clean
 
-if [ "$CLUSTER_TYPE" = "CDH" ]; then
-  nohup $HOME/.whirr/$CLUSTER_NAME/hadoop-proxy.sh > /dev/null 2>&1 &
-else
+if [ "$CLUSTER_TYPE" = "CM" ]; then
   CLIENT_CONFIG_URL="http://"$(grep cmserver "$HOME/.whirr/$CLUSTER_NAME/instances" | cut -d: -f3 | awk '{print $3}')":7180/cmf/services/"
   for ID in {50..1}; do
     if [ $(curl -sI "$CLIENT_CONFIG_URL$ID/client-config" | grep "HTTP/1.1 200 OK\|mapreduce" | wc -l) -eq 2 ]; then
@@ -22,9 +20,20 @@ else
       break;
     fi 
   done
+	if [ ! $CLIENT_CONFIG_FOUND ]; then
+	  echo "Unable to download client config"
+	fi
+else
+  if [ ! -f "$HOME/.whirr/$CLUSTER_NAME/hadoop-site.xml" ]; then
+    echo "Unable to locate local client config"
+  fi  
 fi
 
-if [ ! $CLIENT_CONFIG_FOUND ]; then
-  echo "Unable to download client config"
-  exit 1
+if [ -f "$HOME/.whirr/$CLUSTER_NAME/hadoop-site.xml" ]; then
+  if [ $CLIENT_CONFIG_FOUND ]; then
+    rm -rf "$HOME/.whirr/$CLUSTER_NAME/hadoop-site.xml"
+    rm -rf "$HOME/.whirr/$CLUSTER_NAME/hadoop-proxy.sh"
+  else
+    nohup $HOME/.whirr/$CLUSTER_NAME/hadoop-proxy.sh > /dev/null 2>&1 &
+  fi  
 fi
