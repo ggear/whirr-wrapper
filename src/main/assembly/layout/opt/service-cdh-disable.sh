@@ -10,14 +10,14 @@ function line_item_cmd() {
   echo "" 
 }
 
-SERVICE_CMD='stop'
+SERVICE_CMD='off'
 SERVICE_PREFIX='hadoop'
 
 echo ""
 
 if ls /etc/init.d/$SERVICE_PREFIX-* &> /dev/null; then
   for SERVICE_SCRIPT in /etc/init.d/$SERVICE_PREFIX-*; do
-    line_item_cmd "sudo $SERVICE_SCRIPT $SERVICE_CMD"
+    line_item_cmd "sudo /sbin/chkconfig $(basename $SERVICE_SCRIPT) $SERVICE_CMD"
   done
 fi 
 
