@@ -5,7 +5,7 @@
 
 	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%m%n" />
+			<param name="ConversionPattern" value="%d %-5p %m%n" />
 		</layout>
 	</appender>
 
@@ -15,14 +15,12 @@
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<param name="Threshold" value="TRACE" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d %-5p [%c] (%t) %m%n" />
+			<param name="ConversionPattern" value="%d %p [%t] %c %l %m%n" />
 		</layout>
 	</appender>
 
-	<logger name="org.apache.whirr" additivity="false">
-		<level value="WARN" />
-		<appender-ref ref="CONSOLE" />
-		<appender-ref ref="ROLLINGFILE" />
+	<logger name="org.apache.whirr">
+		<level value="INFO" />
 	</logger>
 
 	<logger name="jclouds.compute">
@@ -39,6 +37,7 @@
 
 	<root>
 		<priority value="INFO" />
+		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="ROLLINGFILE" />
 	</root>
 

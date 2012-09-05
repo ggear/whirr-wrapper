@@ -23,7 +23,7 @@ fi
 
 if [ "$CMD" = "launch" ]; then
   $WHIRR_HOME/bin/whirr "launch-cluster" --config ../cfg/$CLUSTER_NAME.properties
-  $WHIRR_WRAPPER_HOME/bin/whirr-init
+  $WHIRR_WRAPPER_HOME/bin/whirr-cm-init
   $WHIRR_WRAPPER_HOME/bin/whirr-client
   $WHIRR_WRAPPER_HOME/bin/whirr-list
 elif [ "$CMD" = "destroy" ]; then
