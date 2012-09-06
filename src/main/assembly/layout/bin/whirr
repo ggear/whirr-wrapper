@@ -1,5 +1,7 @@
 #!/bin/sh
 
+WHIRR_TIME="$(date +%s)"
+
 source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
 
 mkdir -p "$WHIRR_WRAPPER_HOME"/log
@@ -54,3 +56,6 @@ else
   $WHIRR_HOME/bin/whirr "$CMD" --config $WHIRR_WRAPPER_HOME/cfg/$CLUSTER_NAME.properties "$@"
 fi
 
+WHIRR_TIME="$(($(date +%s)-WHIRR_TIME))"
+WHIRR_TIME_STRING=$(printf "Whirr completed in [%02d:%02d:%02d:%02d]\n" "$((WHIRR_TIME/86400))" "$((WHIRR_TIME/3600%24))" "$((WHIRR_TIME/60%60))" "$((WHIRR_TIME%60))") 
+echo "" && echo "" && line_item_header "$WHIRR_TIME_STRING" && echo "" 

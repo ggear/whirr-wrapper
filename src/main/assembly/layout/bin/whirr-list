@@ -3,10 +3,6 @@
 source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
 
 assertClusterInitialised
-  
-function line_item_header() {
-  echo "-------------------------------------------------------------------------------" && echo "$1" && echo "-------------------------------------------------------------------------------" && echo "" 
-}
 
 function line_item_line() {
   cat $TMP_FILE | grep $1
