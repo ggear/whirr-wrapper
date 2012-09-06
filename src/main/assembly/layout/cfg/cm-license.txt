@@ -1,0 +1,26 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+{
+    "expirationDate": "2096-07-22", 
+    "name": "Graham", 
+    "uuid": "6a778a34-d5d8-11e1-a447-b499baa7f55b", 
+    "version": 1
+}
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.5 (GNU/Linux)
+
+iQIVAwUBUA8WryXwRXLmH8tlAQIobg/8C5HB31NcSmocYnp3HqgglKyzlgpN1f4U
+KhyEAyY4Aw++7NusBpwXe5tjHt32nvA7fd8kFWuXnAxdR5EZW9nrE4miZGNC8d+1
+UZ4VW8BonGL5LB4SSXkx1JU5pcfNYsR2dIuA49/6BjFvErNojW5rB+6FW7CYHMtV
+492FK+eKhvZUswewo8/c+oi+rUGKBFyqknqqkPOtbj6kCjOtWM5QRLbM1mwkTTSh
+S6oFylvhQI/l7BvJ53Dh6kSPC9TZewhPtsWYKrPNrsaGhuWuRWiSVlPHZSc5XCzm
+aY/mzXj4Q38468RQSYV5Kt4rHyhARNx7thyAnlCesuI3GuftOai0VR5nf6rh+TBe
+ncy5COU2z7BKWAGWFTnWfi4Y9f0zzBBLTlLhEGk6aVI1lmPmZIxY73Legv4GWoBe
+MsEHIRSk2t+rbQaugwZxyZLNwCn2yIvMkn7923YRIuvirobnIq/whn3ga+xsyM/D
++Iq5xR8e9SsvM6plWAKCxyRkZWyxJF3B2jpIORvSNpirgFA97FRZxGY6U1Iy+3V/
+eC6vRmiKhZiOhYWS6FknrtZ8id16hK5+NVZQXTQ6yN4TmbS9yZsgt+Fh1DJ7srq5
+9rKh0GBQZGk+RauHBS0/udg1pcpv5QwlZHHN1+BKFK9mKwl5TnJdA9OCmXxDv+Ao
+H+Vm5kPi/Io=
+=GHpn
+-----END PGP SIGNATURE-----
