@@ -13,7 +13,7 @@
     { "name" : "HTTP_PORT", "value" : "7180" },
     { "name" : "HTTPS_PORT", "value" : "7183" },
     { "name" : "AGENT_PORT", "value" : "7182" },
-    { "name" : "SECURITY_REALM", "value" : "CDHCLUSTER.COM" },
+    { "name" : "SECURITY_REALM", "value" : "CLUSTER.COM" },
     { "name" : "GEN_KEYTAB_SCRIPT", "value" : "" },
     { "name" : "ALLOW_USAGE_DATA", "value" : "true" },
     { "name" : "PHONE_HOME", "value" : "true" },
