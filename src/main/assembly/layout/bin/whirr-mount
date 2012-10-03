@@ -5,5 +5,10 @@ source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
 assertClusterInitialised
 
 mkdir -p $CLUSTER_FUSE_MOUNT/$CLUSTER_NAME
+
+if [ "$CLUSTER_SECURITY" = "KERBEROS" ]; then
+  $WHIRR_WRAPPER_HOME/bin/whirr-kinit hdfs
+fi
+
 hadoop-fuse-dfs $CLUSTER_NAMENODE $CLUSTER_FUSE_MOUNT/$CLUSTER_NAME > /dev/null
 

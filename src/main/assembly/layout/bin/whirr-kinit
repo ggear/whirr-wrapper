@@ -1,0 +1,8 @@
+#!/usr/bin/expect -f
+
+log_user 0
+set timeout 5000
+set principal_primary [lindex $argv 0]
+spawn kinit $principal_primary@CDHCLUSTER.COM
+expect -re {Password for .* } { send "$principal_primary\r" }
+expect EOF

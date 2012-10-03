@@ -46,11 +46,9 @@ elif [ "$CMD" = "umount" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-umount
 elif [ "$CMD" = "client" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-client
-elif [ "$CMD" = "examples" ]; then
-  $WHIRR_WRAPPER_HOME/bin/whirr-hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar "$@" 
-elif [ "$CMD" = "tests" ]; then
-  $WHIRR_WRAPPER_HOME/bin/whirr-hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-client-jobclient-*-tests.jar "$@" 
 elif [ "$CMD" = "hadoop" ]; then
+  $WHIRR_WRAPPER_HOME/bin/whirr-hadoop cdhuser "$@" 
+elif [ "$CMD" = "hadoop-user" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-hadoop "$@" 
 elif [ "$CMD" = "help" ]; then
   $WHIRR_HOME/bin/whirr "help" "$@"

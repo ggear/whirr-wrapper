@@ -54,6 +54,8 @@ $WHIRR_HOME/bin/whirr list-cluster --config $WHIRR_WRAPPER_HOME/cfg/$CLUSTER_NAM
 cat $TMP_FILE
 echo ""
 
+line_items_host "Kerberos Servers" "kerberosserver"
+line_items_host "Kerberos Clients" "kerberosclient"
 line_items_url "CM Servers" "cmserver" "7180" 
 line_items_host "CM Agents" "cmagent"
 line_items_host "CM Nodes" "cmnode"
