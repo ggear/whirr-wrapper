@@ -2,6 +2,10 @@
 
 source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
 
+if [ -d "$HOME/.whirr/$CLUSTER_NAME" ]; then
+  cp -r "$HOME/.whirr/$CLUSTER_NAME" "$WHIRR_WRAPPER_HOME"/cfg
+fi
+
 assertClusterInitialised
 
 $WHIRR_WRAPPER_HOME/bin/whirr-client-clean
@@ -37,8 +41,6 @@ if [ -f "$HOME/.whirr/$CLUSTER_NAME/hadoop-site.xml" ]; then
     nohup $HOME/.whirr/$CLUSTER_NAME/hadoop-proxy.sh > /dev/null 2>&1 &
   fi  
 fi
-
-cp -r "$HOME/.whirr/$CLUSTER_NAME" "$WHIRR_WRAPPER_HOME"/cfg
 
 if [ "$CLUSTER_SECURITY" = "KERBEROS" ]; then
   KDC=$(grep kerberosserver "$HOME/.whirr/$CLUSTER_NAME/instances" | cut -d: -f3 | awk '{print $3}')
