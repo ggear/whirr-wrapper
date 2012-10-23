@@ -47,7 +47,7 @@ elif [ "$CMD" = "umount" ]; then
 elif [ "$CMD" = "client" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-client
 elif [ "$CMD" = "hadoop" ]; then
-  $WHIRR_WRAPPER_HOME/bin/whirr-hadoop cdhuser "$@" 
+  $WHIRR_WRAPPER_HOME/bin/whirr-hadoop $CLUSTER_USER "$@" 
 elif [ "$CMD" = "hadoop-user" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-hadoop "$@" 
 elif [ "$CMD" = "help" ]; then

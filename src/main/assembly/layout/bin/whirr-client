@@ -50,9 +50,9 @@ if [ "$CLUSTER_SECURITY" = "KERBEROS" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-kinit hdfs
 fi
 
-$WHIRR_WRAPPER_HOME/bin/whirr-hadoop hdfs fs -mkdir /user/cdhuser > /dev/null 2>&1
-$WHIRR_WRAPPER_HOME/bin/whirr-hadoop hdfs fs -chown cdhuser /user/cdhuser > /dev/null 2>&1
+$WHIRR_WRAPPER_HOME/bin/whirr-hadoop hdfs fs -mkdir /user/$CLUSTER_USER > /dev/null 2>&1
+$WHIRR_WRAPPER_HOME/bin/whirr-hadoop hdfs fs -chown $CLUSTER_USER /user/$CLUSTER_USER > /dev/null 2>&1
 
 if [ "$CLUSTER_SECURITY" = "KERBEROS" ]; then
-  $WHIRR_WRAPPER_HOME/bin/whirr-kinit cdhuser
+  $WHIRR_WRAPPER_HOME/bin/whirr-kinit $CLUSTER_USER
 fi
