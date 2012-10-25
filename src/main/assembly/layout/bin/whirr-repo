@@ -1,10 +1,13 @@
 #!/bin/sh
 
-mkdir -p /var/www/html/tmph3l7m2vv103/cloudera-repos
-cd /var/www/html/tmph3l7m2vv103/cloudera-repos
+DIR_BASE=/var/www/html/tmph3l7m2vv103
+DIR_BASE_REPO=$DIR_BASE/cloudera-repos
 
-mkdir -p /var/www/html/tmph3l7m2vv103/cloudera-repos/cdh4/redhat/6/x86_64/cdh/4
-[ ! -L cloudera-cdh4 ] && ln -s /var/www/html/tmph3l7m2vv103/cloudera-repos/cdh4/redhat/6/x86_64/cdh/4 cloudera-cdh4 
+mkdir -p $DIR_BASE_REPO
+cd $DIR_BASE_REPO
+
+mkdir -p $DIR_BASE_REPO/cdh4/redhat/6/x86_64/cdh/4
+[ ! -L cloudera-cdh4 ] && ln -s $DIR_BASE_REPO/cdh4/redhat/6/x86_64/cdh/4 cloudera-cdh4 
 reposync -r cloudera-cdh4
 reposync -r cloudera-impala
 rsync -auv cloudera-impala/RPMS cloudera-cdh4
@@ -12,9 +15,12 @@ cd cloudera-cdh4
 createrepo .
 cd ..
 
-mkdir -p /var/www/html/tmph3l7m2vv103/cloudera-repos/cm4/redhat/6/x86_64/cm/4
-[ ! -L cloudera-manager ] && ln -s /var/www/html/tmph3l7m2vv103/cloudera-repos/cm4/redhat/6/x86_64/cm/4 cloudera-manager 
+mkdir -p $DIR_BASE_REPO/cm4/redhat/6/x86_64/cm/4
+[ ! -L cloudera-manager ] && ln -s $DIR_BASE_REPO/cm4/redhat/6/x86_64/cm/4 cloudera-manager 
 reposync -r cloudera-manager
 cd cloudera-manager
 createrepo .
 cd ..
+
+find $DIR_BASE -type d -exec chmod 755 {} \;
+find $DIR_BASE -type f -exec chmod 644 {} \;
