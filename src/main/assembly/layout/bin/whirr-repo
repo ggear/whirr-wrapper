@@ -22,5 +22,5 @@ cd cloudera-manager
 createrepo .
 cd ..
 
-find $DIR_BASE -type d -exec chmod 755 {} \;
-find $DIR_BASE -type f -exec chmod 644 {} \;
+find $DIR_BASE -type d -exec chmod -v 755 {} \;
+find $DIR_BASE -type f -exec chmod -v 644 {} \;
