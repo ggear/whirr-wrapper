@@ -1,0 +1,20 @@
+#!/bin/sh
+
+mkdir -p /var/www/html/tmph3l7m2vv103/cloudera-repos
+cd /var/www/html/tmph3l7m2vv103/cloudera-repos
+
+mkdir -p /var/www/html/tmph3l7m2vv103/cloudera-repos/cdh4/redhat/6/x86_64/cdh/4
+[ ! -L cloudera-cdh4 ] && ln -s /var/www/html/tmph3l7m2vv103/cloudera-repos/cdh4/redhat/6/x86_64/cdh/4 cloudera-cdh4 
+reposync -r cloudera-cdh4
+reposync -r cloudera-impala
+rsync -auv cloudera-impala/RPMS cloudera-cdh4
+cd cloudera-cdh4
+createrepo .
+cd ..
+
+mkdir -p /var/www/html/tmph3l7m2vv103/cloudera-repos/cm4/redhat/6/x86_64/cm/4
+[ ! -L cloudera-manager ] && ln -s /var/www/html/tmph3l7m2vv103/cloudera-repos/cm4/redhat/6/x86_64/cm/4 cloudera-manager 
+reposync -r cloudera-manager
+cd cloudera-manager
+createrepo .
+cd ..
