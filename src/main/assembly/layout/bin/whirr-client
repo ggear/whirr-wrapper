@@ -2,10 +2,6 @@
 
 source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
 
-if [ -d "$HOME/.whirr/$CLUSTER_NAME" ]; then
-  cp -r "$HOME/.whirr/$CLUSTER_NAME" "$WHIRR_WRAPPER_HOME"/cfg
-fi
-
 assertClusterInitialised
 
 $WHIRR_WRAPPER_HOME/bin/whirr-client-clean
@@ -24,6 +20,13 @@ if [ "$CLUSTER_TYPE" = "CM" ]; then
       break;
     fi 
   done
+	if [ ! $CLIENT_CONFIG_FOUND ]; then
+	  echo "Unable to download client config"
+	fi
+else
+  if [ ! -f "$HOME/.whirr/$CLUSTER_NAME/hadoop-site.xml" ]; then
+    echo "Unable to locate local client config"
+  fi  
 fi
 
 if [ -f "$HOME/.whirr/$CLUSTER_NAME/hadoop-site.xml" ]; then
@@ -35,6 +38,10 @@ if [ -f "$HOME/.whirr/$CLUSTER_NAME/hadoop-site.xml" ]; then
   fi  
 fi
 
+if [ -d "$HOME/.whirr/$CLUSTER_NAME" ]; then
+  cp -r "$HOME/.whirr/$CLUSTER_NAME" "$WHIRR_WRAPPER_HOME"/cfg
+fi
+
 if [ "$CLUSTER_SECURITY" = "KERBEROS" ]; then
   KDC=$(grep kerberosserver "$HOME/.whirr/$CLUSTER_NAME/instances" | cut -d: -f3 | awk '{print $3}')
   sed -i -e "s/default_realm = .*/default_realm = CDHCLUSTER.COM/" /etc/krb5.conf
@@ -43,9 +50,12 @@ if [ "$CLUSTER_SECURITY" = "KERBEROS" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-kinit hdfs
 fi
 
+$WHIRR_WRAPPER_HOME/bin/whirr-hadoop hdfs fs -mkdir /user/hdfs > /dev/null 2>&1
+$WHIRR_WRAPPER_HOME/bin/whirr-hadoop hdfs fs -chown -R hdfs /user/hdfs > /dev/null 2>&1
 $WHIRR_WRAPPER_HOME/bin/whirr-hadoop hdfs fs -mkdir /user/$CLUSTER_USER > /dev/null 2>&1
-$WHIRR_WRAPPER_HOME/bin/whirr-hadoop hdfs fs -chown $CLUSTER_USER /user/$CLUSTER_USER > /dev/null 2>&1
+$WHIRR_WRAPPER_HOME/bin/whirr-hadoop hdfs fs -chown -R $CLUSTER_USER /user/$CLUSTER_USER > /dev/null 2>&1
 
 if [ "$CLUSTER_SECURITY" = "KERBEROS" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-kinit $CLUSTER_USER
 fi
+
