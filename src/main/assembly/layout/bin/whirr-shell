@@ -12,10 +12,12 @@ export CDHSHELL="$1"
 shift
 
 su $CDHUSER -c \
+'cd "$WHIRR_WRAPPER_HOME"/log; '\
 'source "$WHIRR_WRAPPER_HOME"/bin/whirr.env; '\
 'assertClusterInitialised; '\
+'export HADOOP_CONF_DIR="$WHIRR_WRAPPER_HOME/cfg/$CLUSTER_NAME"; '\
 'export HADOOP_ROOT_LOGGER="ERROR,console"; '\
 'export HADOOP_SECURITY_LOGGER="OFF,console"; '\
 'export HDFS_AUDIT_LOGGER="OFF,console"; '\
 '[ "$CLUSTER_SECURITY" = "KERBEROS" ] && $WHIRR_WRAPPER_HOME/bin/whirr-kinit $CDHUSER; '\
-'$CDHSHELL --config $WHIRR_WRAPPER_HOME/cfg/$CLUSTER_NAME $0 "$@"' -- "$@"
+'$CDHSHELL $0 "$@"' -- "$@"
