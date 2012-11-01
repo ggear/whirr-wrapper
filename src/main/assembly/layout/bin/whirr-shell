@@ -1,11 +1,14 @@
 #!/bin/sh
 
-if [ $# -le 0 ]; then
-  echo "User not specified"
+if [ $# -le 1 ]; then
+  echo "User and or Shell not specified"
   exit 1
 fi
 
 export CDHUSER="$1"
+shift
+
+export CDHSHELL="$1"
 shift
 
 su $CDHUSER -c \
@@ -15,4 +18,4 @@ su $CDHUSER -c \
 'export HADOOP_SECURITY_LOGGER="OFF,console"; '\
 'export HDFS_AUDIT_LOGGER="OFF,console"; '\
 '[ "$CLUSTER_SECURITY" = "KERBEROS" ] && $WHIRR_WRAPPER_HOME/bin/whirr-kinit $CDHUSER; '\
-'hadoop --config $WHIRR_WRAPPER_HOME/cfg/$CLUSTER_NAME $0 "$@"' -- "$@"
+'$CDHSHELL --config $WHIRR_WRAPPER_HOME/cfg/$CLUSTER_NAME $0 "$@"' -- "$@"

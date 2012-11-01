@@ -46,10 +46,10 @@ elif [ "$CMD" = "umount" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-umount
 elif [ "$CMD" = "client" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-client
-elif [ "$CMD" = "hadoop" ]; then
-  $WHIRR_WRAPPER_HOME/bin/whirr-hadoop $CLUSTER_USER "$@" 
-elif [ "$CMD" = "hadoop-user" ]; then
-  $WHIRR_WRAPPER_HOME/bin/whirr-hadoop "$@" 
+elif [ "$CMD" = "shell" ]; then
+  $WHIRR_WRAPPER_HOME/bin/whirr-shell $CLUSTER_USER "$@" 
+elif [ "$CMD" = "shell-user" ]; then
+  $WHIRR_WRAPPER_HOME/bin/whirr-shell "$@" 
 elif [ "$CMD" = "help" ]; then
   $WHIRR_HOME/bin/whirr "help" "$@"
 else
