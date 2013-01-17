@@ -4,23 +4,26 @@ DIR_BASE=/var/www/html/tmph3l7m2vv103
 DIR_BASE_REPO=$DIR_BASE/cloudera-repos
 
 mkdir -p $DIR_BASE_REPO
-cd $DIR_BASE_REPO
 
 mkdir -p $DIR_BASE_REPO/cdh4/redhat/6/x86_64/cdh/4
+cd $DIR_BASE_REPO/cdh4/redhat/6/x86_64/cdh
+wget http://archive.cloudera.com/cdh4/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera
+cd $DIR_BASE_REPO
 [ ! -L cloudera-cdh4 ] && ln -s $DIR_BASE_REPO/cdh4/redhat/6/x86_64/cdh/4 cloudera-cdh4 
 reposync -r cloudera-cdh4
 reposync -r cloudera-impala
 rsync -auv cloudera-impala/RPMS cloudera-cdh4
-cd cloudera-cdh4
+cd $DIR_BASE_REPO/cloudera-cdh4
 createrepo .
-cd ..
 
 mkdir -p $DIR_BASE_REPO/cm4/redhat/6/x86_64/cm/4
+cd $DIR_BASE_REPO/cm4/redhat/6/x86_64/cm
+wget http://archive.cloudera.com/cm4/redhat/6/x86_64/cm/RPM-GPG-KEY-cloudera
+cd $DIR_BASE_REPO
 [ ! -L cloudera-manager ] && ln -s $DIR_BASE_REPO/cm4/redhat/6/x86_64/cm/4 cloudera-manager 
 reposync -r cloudera-manager
 cd cloudera-manager
 createrepo .
-cd ..
 
 find $DIR_BASE -type d -exec chmod -v 755 {} \;
 find $DIR_BASE -type f -exec chmod -v 644 {} \;
