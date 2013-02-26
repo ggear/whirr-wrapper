@@ -4,25 +4,37 @@ DIR_BASE=/var/www/html/tmph3l7m2vv103
 DIR_BASE_REPO=$DIR_BASE/cloudera-repos
 
 mkdir -p $DIR_BASE_REPO
+mkdir -p $WHIRR_WRAPPER_HOME/tmp
 
 mkdir -p $DIR_BASE_REPO/cdh4/redhat/6/x86_64/cdh/4
 cd $DIR_BASE_REPO/cdh4/redhat/6/x86_64/cdh
-wget http://archive.cloudera.com/cdh4/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera
-cd $DIR_BASE_REPO
-[ ! -L cloudera-cdh4 ] && ln -s $DIR_BASE_REPO/cdh4/redhat/6/x86_64/cdh/4 cloudera-cdh4 
+wget -N http://archive.cloudera.com/cdh4/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera
+cd $WHIRR_WRAPPER_HOME/tmp
+[ ! -L $WHIRR_WRAPPER_HOME/tmp/cloudera-cdh4 ] && ln -s $DIR_BASE_REPO/cdh4/redhat/6/x86_64/cdh/4 $WHIRR_WRAPPER_HOME/tmp/cloudera-cdh4
 reposync -r cloudera-cdh4
-reposync -r cloudera-impala
-rsync -auv cloudera-impala/RPMS cloudera-cdh4
-cd $DIR_BASE_REPO/cloudera-cdh4
+cd $WHIRR_WRAPPER_HOME/tmp/cloudera-cdh4
 createrepo .
+cd $DIR_BASE_REPO
+wget -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9].[0-9].[0-9]*" -A json,el6.parcel http://archive.cloudera.com/cdh4/parcels/
+
+mkdir -p $DIR_BASE_REPO/impala/redhat/6/x86_64/impala/0
+cd $DIR_BASE_REPO/impala/redhat/6/x86_64/impala/0
+wget -N http://beta.cloudera.com/impala/redhat/6/x86_64/impala/RPM-GPG-KEY-cloudera
+cd $WHIRR_WRAPPER_HOME/tmp
+[ ! -L $WHIRR_WRAPPER_HOME/tmp/cloudera-impala ] && ln -s $DIR_BASE_REPO/impala/redhat/6/x86_64/impala/0 $WHIRR_WRAPPER_HOME/tmp/cloudera-impala
+reposync -r cloudera-impala
+cd $WHIRR_WRAPPER_HOME/tmp/cloudera-impala
+createrepo .
+cd $DIR_BASE_REPO
+wget -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9].[0-9]*" -A json,el6.parcel http://beta.cloudera.com/impala/parcels/
 
 mkdir -p $DIR_BASE_REPO/cm4/redhat/6/x86_64/cm/4
 cd $DIR_BASE_REPO/cm4/redhat/6/x86_64/cm
-wget http://archive.cloudera.com/cm4/redhat/6/x86_64/cm/RPM-GPG-KEY-cloudera
-cd $DIR_BASE_REPO
-[ ! -L cloudera-manager ] && ln -s $DIR_BASE_REPO/cm4/redhat/6/x86_64/cm/4 cloudera-manager 
+wget -N http://archive.cloudera.com/cm4/redhat/6/x86_64/cm/RPM-GPG-KEY-cloudera
+cd $WHIRR_WRAPPER_HOME/tmp
+[ ! -L $WHIRR_WRAPPER_HOME/tmp/cloudera-manager ] && ln -s $DIR_BASE_REPO/cm4/redhat/6/x86_64/cm/4 $WHIRR_WRAPPER_HOME/tmp/cloudera-manager 
 reposync -r cloudera-manager
-cd cloudera-manager
+cd $WHIRR_WRAPPER_HOME/tmp/cloudera-manager
 createrepo .
 
 find $DIR_BASE -type d -exec chmod -v 755 {} \;
