@@ -8,7 +8,7 @@ $WHIRR_WRAPPER_HOME/bin/whirr-client-clean
 
 if [ "$CLUSTER_TYPE" = "CM" ]; then
   CLIENT_CONFIG_URL="http://"$(grep cmserver "$HOME/.whirr/$CLUSTER_NAME/instances" | cut -d: -f3 | awk '{print $3}')":7180/cmf/services/"
-  for ID in {50..1}; do
+  for ID in {25..1}; do
     if [ $(curl -sI "$CLIENT_CONFIG_URL$ID/client-config" | grep "HTTP/1.1 200 OK\|mapreduce\|hive" | wc -l) -eq 2 ]; then
       cd "$HOME/.whirr/$CLUSTER_NAME"
       curl -sO "$CLIENT_CONFIG_URL$ID/client-config"
@@ -17,7 +17,6 @@ if [ "$CLUSTER_TYPE" = "CM" ]; then
       mv -f hadoop-conf/* hive-conf/* ./ > /dev/null 2>&1
       rm -rf hadoop-conf hive-conf
       CLIENT_CONFIG_FOUND=true
-      break;
     fi 
   done
 	if [ ! $CLIENT_CONFIG_FOUND ]; then
