@@ -13,15 +13,15 @@ function line_item_ip() {
 }
 
 function line_item_host() {
-  line_item_ip $1 | xargs -n 1 -I £ dig +short -x £ | sed 's/\(.*\)./\1/'
+  line_item_ip $1 | xargs -n 1 -I ï¿½ dig +short -x ï¿½ | sed 's/\(.*\)./\1/'
 }
 
 function line_item_url() {
-  line_item_host $1 | xargs -n 1 -I £ echo "http://"£":"$2"/"$3
+  line_item_host $1 | xargs -n 1 -I ï¿½ echo "http://"ï¿½":"$2"/"$3
 }
 
 function line_item_ssh() {
-  line_item_host $1 | xargs -n 1 -I £ echo "ssh -o StrictHostKeyChecking=no whirr@"£
+  line_item_host $1 | xargs -n 1 -I ï¿½ echo "ssh -o StrictHostKeyChecking=no whirr@"ï¿½
 }
 
 function line_items_host() {
@@ -56,9 +56,9 @@ echo ""
 
 line_items_host "Kerberos Servers" "kerberosserver"
 line_items_host "Kerberos Clients" "kerberosclient"
-line_items_url "CM Servers" "cmserver" "7180" 
-line_items_host "CM Agents" "cmagent"
-line_items_host "CM Nodes" "cmnode"
+line_items_url "CM Servers" "cm-server" "7180" 
+line_items_host "CM Agents" "cm-agent"
+line_items_host "CM Nodes" "cm-node"
 line_items_host "CDH Clients" "cdhclient"
 line_items_url "CDH Name Nodes" "hadoop-namenode" "50070" 
 line_items_url "CDH Job Trackers Nodes" "hadoop-jobtracker" "50030" 

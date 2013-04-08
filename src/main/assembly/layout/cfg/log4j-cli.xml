@@ -20,7 +20,7 @@
 	</appender>
 
 	<logger name="org.apache.whirr">
-		<level value="INFO" />
+		<level value="WARN" />
 	</logger>
 
 	<logger name="jclouds.compute">
@@ -32,11 +32,11 @@
 	</logger>
 
 	<logger name="net.schmizz.sshj">
-		<level value="ERROR" />
+		<level value="FATAL" />
 	</logger>
 
 	<root>
-		<priority value="INFO" />
+		<priority value="WARN" />
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="ROLLINGFILE" />
 	</root>

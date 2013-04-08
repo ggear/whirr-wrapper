@@ -1,7 +1,5 @@
 #!/bin/sh
 
-WHIRR_TIME="$(date +%s)"
-
 source "$WHIRR_WRAPPER_HOME"/bin/whirr.env
 
 mkdir -p "$WHIRR_WRAPPER_HOME"/log
@@ -25,17 +23,13 @@ fi
 
 if [ "$CMD" = "launch" ]; then
   $WHIRR_HOME/bin/whirr "launch-cluster" --config ../cfg/$CLUSTER_NAME.properties
-  $WHIRR_WRAPPER_HOME/bin/whirr-cm-init
   $WHIRR_WRAPPER_HOME/bin/whirr-client
-  $WHIRR_WRAPPER_HOME/bin/whirr-list
 elif [ "$CMD" = "destroy" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-client-clean
   $WHIRR_WRAPPER_HOME/bin/whirr-umount
   $WHIRR_HOME/bin/whirr "destroy-cluster" --config ../cfg/$CLUSTER_NAME.properties
 elif [ "$CMD" = "list" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-list
-elif [ "$CMD" = "cm-init" ]; then
-  $WHIRR_WRAPPER_HOME/bin/whirr-cm-init
 elif [ "$CMD" = "run" ]; then
   SCRIPT="$1"
   shift
@@ -56,6 +50,3 @@ else
   $WHIRR_HOME/bin/whirr "$CMD" --config $WHIRR_WRAPPER_HOME/cfg/$CLUSTER_NAME.properties "$@"
 fi
 
-WHIRR_TIME="$(($(date +%s)-WHIRR_TIME))"
-WHIRR_TIME_STRING=$(printf "Whirr completed in [%02d:%02d:%02d:%02d]\n" "$((WHIRR_TIME/86400))" "$((WHIRR_TIME/3600%24))" "$((WHIRR_TIME/60%60))" "$((WHIRR_TIME%60))") 
-echo "" && echo "" && line_item_header "$WHIRR_TIME_STRING" && echo "" 
