@@ -1,0 +1,4 @@
+#!/bin/sh
+
+whirr run-script --quiet --script "$WHIRR_WRAPPER_HOME/opt/stop.sh" 
+whirr run-script --quiet --script "$WHIRR_WRAPPER_HOME/opt/start.sh" 

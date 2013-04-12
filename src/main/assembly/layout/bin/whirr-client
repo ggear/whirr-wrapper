@@ -11,7 +11,7 @@ if [ -f "$HOME/.whirr/$CLUSTER_NAME/hadoop-site.xml" ]; then
 fi
 
 if [ -d "$HOME/.whirr/$CLUSTER_NAME" ]; then
-  cp -r "$HOME/.whirr/$CLUSTER_NAME" "$WHIRR_WRAPPER_HOME"/cfg
+  cp -rf "$HOME/.whirr/$CLUSTER_NAME" "$WHIRR_WRAPPER_HOME"/cfg
 fi
 
 if [ "$CLUSTER_SECURITY" = "KERBEROS" ]; then
@@ -23,14 +23,6 @@ if [ "$CLUSTER_SECURITY" = "KERBEROS" ]; then
 else
   kdestroy > /dev/null 2>&1
 fi
-
-$WHIRR_WRAPPER_HOME/bin/whirr-shell hdfs hadoop fs -mkdir /user/hdfs > /dev/null 2>&1
-$WHIRR_WRAPPER_HOME/bin/whirr-shell hdfs hadoop fs -mkdir /user/hive > /dev/null 2>&1
-$WHIRR_WRAPPER_HOME/bin/whirr-shell hdfs hadoop fs -chmod 777 /user/hive > /dev/null 2>&1
-$WHIRR_WRAPPER_HOME/bin/whirr-shell hdfs hadoop fs -mkdir /user/root > /dev/null 2>&1
-$WHIRR_WRAPPER_HOME/bin/whirr-shell hdfs hadoop fs -chown -R root /user/root > /dev/null 2>&1
-$WHIRR_WRAPPER_HOME/bin/whirr-shell hdfs hadoop fs -mkdir /user/$CLUSTER_USER > /dev/null 2>&1
-$WHIRR_WRAPPER_HOME/bin/whirr-shell hdfs hadoop fs -chown -R $CLUSTER_USER /user/$CLUSTER_USER > /dev/null 2>&1
 
 if [ "$CLUSTER_SECURITY" = "KERBEROS" ]; then
   $WHIRR_WRAPPER_HOME/bin/whirr-kinit $CLUSTER_USER
