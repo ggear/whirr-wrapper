@@ -6,26 +6,29 @@ mkdir -p "$WHIRR_WRAPPER_HOME"/log
 cd "$WHIRR_WRAPPER_HOME"/log
 
 if [ $# -le 0 ]; then
-	$WHIRR_HOME/bin/whirr
-	exit 1
+  $WHIRR_HOME/bin/whirr
+  exit 1
 fi
 
 CMD="$1"
 shift
 
-if [ "$CMD" != "launch-cluster" ] && [ ! $CLUSTER_LAUNCHED ]; then
+if [ "$CMD" != "" ] && [ "$CMD" != "help" ] && [ "$CMD" != "launch-cluster" ] && [ ! $CLUSTER_LAUNCHED ]; then
   echo "Whirr cluster not initialised"
   exit 1
-elif [ "$CMD" = "launch-cluster" ] && [ $CLUSTER_LAUNCHED ]; then
+fi
+if [ "$CMD" = "launch-cluster" ] && [ $CLUSTER_LAUNCHED ]; then
   echo "Whirr cluster already initialised"
   exit 1
 fi
 
 if [ "$CMD" = "launch-cluster" ]; then
   $WHIRR_HOME/bin/whirr "launch-cluster" --config ../cfg/$CLUSTER_NAME.properties "$@"
-  $WHIRR_WRAPPER_HOME/bin/whirr-hosts &> /dev/null
-  $WHIRR_HOME/bin/whirr start-services --config ../cfg/$CLUSTER_NAME.properties "$@"
-  $WHIRR_HOME/bin/whirr download-config --config ../cfg/$CLUSTER_NAME.properties "$@"
+  if [ "$WHIRR_CLOUD_PROVIDER" = "RS-CS" ]; then
+    $WHIRR_WRAPPER_HOME/bin/whirr-hosts &> /dev/null
+    $WHIRR_HOME/bin/whirr start-services --config ../cfg/$CLUSTER_NAME.properties "$@"
+    $WHIRR_HOME/bin/whirr download-config --config ../cfg/$CLUSTER_NAME.properties "$@"
+  fi
   $WHIRR_WRAPPER_HOME/bin/whirr-client
   $WHIRR_WRAPPER_HOME/bin/whirr-hdfs
 elif [ "$CMD" = "destroy-cluster" ]; then
