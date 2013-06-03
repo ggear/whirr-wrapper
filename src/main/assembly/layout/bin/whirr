@@ -29,6 +29,7 @@ if [ "$CMD" = "launch-cluster" ]; then
     $WHIRR_HOME/bin/whirr start-services --config ../cfg/$CLUSTER_NAME.properties "$@"
     $WHIRR_HOME/bin/whirr download-config --config ../cfg/$CLUSTER_NAME.properties "$@"
   fi
+  $WHIRR_WRAPPER_HOME/bin/whirr-cmproxy
   $WHIRR_WRAPPER_HOME/bin/whirr-client
   $WHIRR_WRAPPER_HOME/bin/whirr-hdfs
 elif [ "$CMD" = "destroy-cluster" ]; then

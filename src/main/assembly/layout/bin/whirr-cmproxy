@@ -1,0 +1,10 @@
+#!/bin/sh
+
+CMURL=$(whirr list-services | grep http | awk '{print $4}')"/"
+
+sed -i -e "s|ProxyPass / http.*|ProxyPass / $CMURL|" /etc/httpd/conf/httpd.conf
+sed -i -e "s|ProxyPassReverse / http.*|ProxyPassReverse / $CMURL|" /etc/httpd/conf/httpd.conf
+sed -i -e "s|ProxyPass /cmf http.*|ProxyPass /cmf $CMURL|" /etc/httpd/conf/httpd.conf
+sed -i -e "s|ProxyPassReverse /cmf http.*|ProxyPassReverse /cmf $CMURL|" /etc/httpd/conf/httpd.conf
+
+service httpd reload > /dev/null
