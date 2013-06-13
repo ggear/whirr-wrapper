@@ -29,6 +29,7 @@ cd $WHIRR_WRAPPER_HOME/tmp/cloudera-impala
 createrepo .
 cd $DIR_BASE_REPO
 wget -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9].[0-9]*" -A json,el6.parcel http://archive.cloudera.com/impala/parcels/
+wget -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9].[0-9].[0-9]*" -A json,el6.parcel http://archive.cloudera.com/impala/parcels/
 rm -rf impala/parcels/latest
 ln -s $PWD/$(dirname $(find impala/parcels -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" ")) impala/parcels/latest
 
