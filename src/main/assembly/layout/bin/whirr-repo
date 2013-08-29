@@ -15,7 +15,7 @@ reposync -r cloudera-cdh4
 cd $WHIRR_WRAPPER_HOME/tmp/cloudera-cdh4
 createrepo .
 cd $DIR_BASE_REPO
-wget -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9].[0-9].[0-9]*" -A json,el6.parcel http://archive.cloudera.com/cdh4/parcels/
+wget -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9]*" -A json,el6.parcel http://archive.cloudera.com/cdh4/parcels/
 rm -rf cdh4/parcels/latest
 ln -s $PWD/$(dirname $(find cdh4/parcels -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" ")) cdh4/parcels/latest
 
@@ -28,7 +28,7 @@ reposync -r cloudera-impala
 cd $WHIRR_WRAPPER_HOME/tmp/cloudera-impala
 createrepo .
 cd $DIR_BASE_REPO
-wget -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9].[0-9].[0-9]*" -A json,el6.parcel http://archive.cloudera.com/impala/parcels/
+wget -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9]*" -A json,el6.parcel http://archive.cloudera.com/impala/parcels/
 rm -rf impala/parcels/latest
 ln -s $PWD/$(dirname $(find impala/parcels -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" ")) impala/parcels/latest
 
@@ -41,7 +41,7 @@ reposync -r cloudera-search
 cd $WHIRR_WRAPPER_HOME/tmp/cloudera-search
 createrepo .
 cd $DIR_BASE_REPO
-wget -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9].[0-9].[0-9]*" -A json,el6.parcel http://beta.cloudera.com/search/parcels/
+wget -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9]*" -A json,el6.parcel http://beta.cloudera.com/search/parcels/
 rm -rf search/parcels/latest
 ln -s $PWD/$(dirname $(find search/parcels -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" ")) search/parcels/latest
 
