@@ -16,9 +16,9 @@ fi
 
 if [ "$CLUSTER_SECURITY" = "KERBEROS" ]; then
   KDC=$(grep kerberosserver "$HOME/.whirr/$CLUSTER_NAME/instances" | cut -d: -f3 | awk '{print $3}')
-  sed -i -e "s/default_realm = .*/default_realm = CDHCLUSTER.COM/" /etc/krb5.conf
-  sed -i -e "s/kdc = .*/kdc = $KDC/" /etc/krb5.conf
-  sed -i -e "s/admin_server = .*/admin_server = $KDC/" /etc/krb5.conf
+  sed -i -e "s/ default_realm = .*/ default_realm = CDHCLUSTER.COM/" /etc/krb5.conf
+#  sed -i -e "s/ kdc = .*/ kdc = $KDC/" /etc/krb5.conf
+#  sed -i -e "s/ admin_server = .*/ admin_server = $KDC/" /etc/krb5.conf
   $WHIRR_WRAPPER_HOME/bin/whirr-kinit hdfs
 else
   kdestroy > /dev/null 2>&1

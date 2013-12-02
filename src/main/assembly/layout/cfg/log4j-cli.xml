@@ -7,7 +7,7 @@
 		<param name="File" value="whirr.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
-		<param name="Threshold" value="TRACE" />
+		<param name="Threshold" value="INFO" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d %-5p [%c] (%t) %m%n" />
 		</layout>
@@ -18,7 +18,7 @@
 	</logger>
 
 	<logger name="jclouds.compute">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>
 
 	<logger name="jclouds.ssh">

@@ -1,61 +1,46 @@
 #!/bin/sh
 
+ALL_PARCELS=true
+
 DIR_BASE=/var/www/html/tmph3l7m2vv103
 DIR_BASE_REPO=$DIR_BASE/cloudera-repos
+DIR_BASE_TMP=/tmp/whirr-repo
+
+mirror_repo() {
+  mkdir -p $6/$2/$5/$3/RPMS
+  cd $6/$2/$5
+  wget -N $4/$2/$5/RPM-GPG-KEY-cloudera
+  cd $6
+  wget -N -np -nH -r -l 2 -A rpm $4/$2/$5/$3/RPMS
+  [ ! -L $7/$1 ] && ln -s $6/$2/$5/$3 $7/$1
+  cd $7/$1
+  createrepo .
+  if [ $(curl -o /dev/null --silent --head --write-out '%{http_code}\n' $4/$2/parcels/) -eq "200" ]; then
+    mkdir -p $6/$2/parcels
+    cd $6
+    rm -rf $2/parcels/latest
+    if $ALL_PARCELS ; then
+      wget -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9]*" -A json,el6.parcel $4/$2/parcels/
+    else
+      wget -N -np -nH -r -l 2 -A json,el6.parcel $4/$2/parcels/latest/
+      mv $6/$2/parcels/latest $6/$2/parcels/$3      
+    fi    
+    ln -s $6/$(ls -dt $2/parcels/* | head -n 1) $2/parcels/latest
+  fi
+}
 
 mkdir -p $DIR_BASE_REPO
-mkdir -p $WHIRR_WRAPPER_HOME/tmp
+mkdir -p $DIR_BASE_TMP
 
-mkdir -p $DIR_BASE_REPO/cdh4/redhat/6/x86_64/cdh/4
-cd $DIR_BASE_REPO/cdh4/redhat/6/x86_64/cdh
-wget -N http://archive.cloudera.com/cdh4/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera
-cd $WHIRR_WRAPPER_HOME/tmp
-[ ! -L $WHIRR_WRAPPER_HOME/tmp/cloudera-cdh4 ] && ln -s $DIR_BASE_REPO/cdh4/redhat/6/x86_64/cdh/4 $WHIRR_WRAPPER_HOME/tmp/cloudera-cdh4
-reposync -r cloudera-cdh4
-cd $WHIRR_WRAPPER_HOME/tmp/cloudera-cdh4
-createrepo .
-cd $DIR_BASE_REPO
-wget -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9]*" -A json,el6.parcel http://archive.cloudera.com/cdh4/parcels/
-rm -rf cdh4/parcels/latest
-ln -s $PWD/$(dirname $(find cdh4/parcels -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" ")) cdh4/parcels/latest
-
-mkdir -p $DIR_BASE_REPO/impala/redhat/6/x86_64/impala/1
-cd $DIR_BASE_REPO/impala/redhat/6/x86_64/impala/1
-wget -N http://archive.cloudera.com/impala/redhat/6/x86_64/impala/RPM-GPG-KEY-cloudera
-cd $WHIRR_WRAPPER_HOME/tmp
-[ ! -L $WHIRR_WRAPPER_HOME/tmp/cloudera-impala ] && ln -s $DIR_BASE_REPO/impala/redhat/6/x86_64/impala/1 $WHIRR_WRAPPER_HOME/tmp/cloudera-impala
-reposync -r cloudera-impala
-cd $WHIRR_WRAPPER_HOME/tmp/cloudera-impala
-createrepo .
-cd $DIR_BASE_REPO
-wget -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9]*" -A json,el6.parcel http://archive.cloudera.com/impala/parcels/
-rm -rf impala/parcels/latest
-ln -s $PWD/$(dirname $(find impala/parcels -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" ")) impala/parcels/latest
-
-mkdir -p $DIR_BASE_REPO/search/redhat/6/x86_64/search/0
-cd $DIR_BASE_REPO/search/redhat/6/x86_64/search/0
-wget -N http://archive.cloudera.com/search/redhat/6/x86_64/search/RPM-GPG-KEY-cloudera
-cd $WHIRR_WRAPPER_HOME/tmp
-[ ! -L $WHIRR_WRAPPER_HOME/tmp/cloudera-search ] && ln -s $DIR_BASE_REPO/search/redhat/6/x86_64/search/0 $WHIRR_WRAPPER_HOME/tmp/cloudera-search
-reposync -r cloudera-search
-cd $WHIRR_WRAPPER_HOME/tmp/cloudera-search
-createrepo .
-cd $DIR_BASE_REPO
-wget -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9]*" -A json,el6.parcel http://archive.cloudera.com/search/parcels/
-rm -rf search/parcels/latest
-ln -s $PWD/$(dirname $(find search/parcels -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" ")) search/parcels/latest
-
-mkdir -p $DIR_BASE_REPO/cm4/redhat/6/x86_64/cm/4
-cd $DIR_BASE_REPO/cm4/redhat/6/x86_64/cm
-wget -N http://archive.cloudera.com/cm4/redhat/6/x86_64/cm/RPM-GPG-KEY-cloudera
-cd $WHIRR_WRAPPER_HOME/tmp
-[ ! -L $WHIRR_WRAPPER_HOME/tmp/cloudera-manager ] && ln -s $DIR_BASE_REPO/cm4/redhat/6/x86_64/cm/4 $WHIRR_WRAPPER_HOME/tmp/cloudera-manager 
-reposync -r cloudera-manager
-cd $WHIRR_WRAPPER_HOME/tmp/cloudera-manager
-createrepo .
+mirror_repo cloudera-cdh5 cdh5 5 http://archive.cloudera.com redhat/6/x86_64/cdh  $DIR_BASE_REPO $DIR_BASE_TMP
+mirror_repo cloudera-cdh4 cdh4 4 http://archive.cloudera.com redhat/6/x86_64/cdh  $DIR_BASE_REPO $DIR_BASE_TMP
+mirror_repo cloudera-manager5 cm5 5 http://archive.cloudera.com redhat/6/x86_64/cm  $DIR_BASE_REPO $DIR_BASE_TMP
+mirror_repo cloudera-manager4 cm4 4 http://archive.cloudera.com redhat/6/x86_64/cm  $DIR_BASE_REPO $DIR_BASE_TMP
+mirror_repo cloudera-impala impala 1 http://archive.cloudera.com redhat/6/x86_64/impala  $DIR_BASE_REPO $DIR_BASE_TMP
+mirror_repo cloudera-search search 1 http://archive.cloudera.com redhat/6/x86_64/search  $DIR_BASE_REPO $DIR_BASE_TMP
 
 find $DIR_BASE -type d -exec chmod -v 755 {} \;
 find $DIR_BASE -type f -exec chmod -v 644 {} \;
 
-rm -rf $WHIRR_WRAPPER_HOME/tmp/cloudera-*
+rm -rf $DIR_BASE_TMP/cloudera-*
 
