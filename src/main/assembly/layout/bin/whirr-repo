@@ -38,6 +38,7 @@ mirror_repo cloudera-manager5 cm5 5 http://archive.cloudera.com redhat/6/x86_64/
 mirror_repo cloudera-manager4 cm4 4 http://archive.cloudera.com redhat/6/x86_64/cm  $DIR_BASE_REPO $DIR_BASE_TMP
 mirror_repo cloudera-impala impala 1 http://archive.cloudera.com redhat/6/x86_64/impala  $DIR_BASE_REPO $DIR_BASE_TMP
 mirror_repo cloudera-search search 1 http://archive.cloudera.com redhat/6/x86_64/search  $DIR_BASE_REPO $DIR_BASE_TMP
+mirror_repo cloudera-spark spark 1 http://archive.cloudera.com redhat/6/x86_64/spark  $DIR_BASE_REPO $DIR_BASE_TMP
 
 find $DIR_BASE -type d -exec chmod -v 755 {} \;
 find $DIR_BASE -type f -exec chmod -v 644 {} \;
