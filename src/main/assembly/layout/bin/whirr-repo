@@ -9,9 +9,9 @@ DIR_BASE_TMP=/tmp/whirr-repo
 mirror_repo() {
   mkdir -p $6/$2/$5/$3/RPMS
   cd $6/$2/$5
-  wget -N $4/$2/$5/RPM-GPG-KEY-cloudera
+  wget -e robots=off -N $4/$2/$5/RPM-GPG-KEY-cloudera
   cd $6
-  wget -N -np -nH -r -l 2 -A rpm $4/$2/$5/$3/RPMS
+  wget -e robots=off -N -np -nH -r -l 2 -A rpm $4/$2/$5/$3/RPMS/
   [ ! -L $7/$1 ] && ln -s $6/$2/$5/$3 $7/$1
   cd $7/$1
   createrepo .
@@ -20,9 +20,9 @@ mirror_repo() {
     cd $6
     rm -rf $2/parcels/latest
     if $ALL_PARCELS ; then
-      wget -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9]*" -A json,el6.parcel $4/$2/parcels/
+      wget -e robots=off -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9]*" -A json,el6.parcel $4/$2/parcels/
     else
-      wget -N -np -nH -r -l 2 -A json,el6.parcel $4/$2/parcels/latest/
+      wget -e robots=off -N -np -nH -r -l 2 -A json,el6.parcel $4/$2/parcels/latest/
       mv $6/$2/parcels/latest $6/$2/parcels/$3      
     fi    
     ln -s $6/$(ls -dt $2/parcels/* | head -n 1) $2/parcels/latest
@@ -32,16 +32,17 @@ mirror_repo() {
 mkdir -p $DIR_BASE_REPO
 mkdir -p $DIR_BASE_TMP
 
-mirror_repo cloudera-cdh5 cdh5 5 http://archive.cloudera.com redhat/6/x86_64/cdh  $DIR_BASE_REPO $DIR_BASE_TMP
-mirror_repo cloudera-cdh4 cdh4 4 http://archive.cloudera.com redhat/6/x86_64/cdh  $DIR_BASE_REPO $DIR_BASE_TMP
-mirror_repo cloudera-manager5 cm5 5 http://archive.cloudera.com redhat/6/x86_64/cm  $DIR_BASE_REPO $DIR_BASE_TMP
-mirror_repo cloudera-manager4 cm4 4 http://archive.cloudera.com redhat/6/x86_64/cm  $DIR_BASE_REPO $DIR_BASE_TMP
-mirror_repo cloudera-impala impala 1 http://archive.cloudera.com redhat/6/x86_64/impala  $DIR_BASE_REPO $DIR_BASE_TMP
-mirror_repo cloudera-search search 1 http://archive.cloudera.com redhat/6/x86_64/search  $DIR_BASE_REPO $DIR_BASE_TMP
-mirror_repo cloudera-spark spark 1 http://archive.cloudera.com redhat/6/x86_64/spark  $DIR_BASE_REPO $DIR_BASE_TMP
+mirror_repo cloudera-cdh5 cdh5 5 http://archive-primary.cloudera.com redhat/6/x86_64/cdh  $DIR_BASE_REPO $DIR_BASE_TMP
+mirror_repo cloudera-cdh4 cdh4 4 http://archive-primary.cloudera.com redhat/6/x86_64/cdh  $DIR_BASE_REPO $DIR_BASE_TMP
+mirror_repo cloudera-manager5 cm5 5 http://archive-primary.cloudera.com redhat/6/x86_64/cm  $DIR_BASE_REPO $DIR_BASE_TMP
+mirror_repo cloudera-manager4 cm4 4 http://archive-primary.cloudera.com redhat/6/x86_64/cm  $DIR_BASE_REPO $DIR_BASE_TMP
+mirror_repo cloudera-impala impala 1 http://archive-primary.cloudera.com redhat/6/x86_64/impala  $DIR_BASE_REPO $DIR_BASE_TMP
+mirror_repo cloudera-search search 1 http://archive-primary.cloudera.com redhat/6/x86_64/search  $DIR_BASE_REPO $DIR_BASE_TMP
+mirror_repo cloudera-spark spark 1 http://archive-primary.cloudera.com redhat/6/x86_64/spark  $DIR_BASE_REPO $DIR_BASE_TMP
+mirror_repo cloudera-accumulo accumulo 4 http://archive-primary.cloudera.com redhat/6/x86_64/cdh  $DIR_BASE_REPO $DIR_BASE_TMP
+mirror_repo cloudera-sqoop-connectors sqoop-connectors 1 http://archive-primary.cloudera.com redhat/6/x86_64/sqoop  $DIR_BASE_REPO $DIR_BASE_TMP
 
 find $DIR_BASE -type d -exec chmod -v 755 {} \;
 find $DIR_BASE -type f -exec chmod -v 644 {} \;
 
 rm -rf $DIR_BASE_TMP/cloudera-*
-
