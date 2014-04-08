@@ -25,7 +25,7 @@ mirror_repo() {
       wget -e robots=off -N -np -nH -r -l 2 -A json,el6.parcel $4/$2/parcels/latest/
       mv $6/$2/parcels/latest $6/$2/parcels/$3      
     fi    
-    ln -s $6/$(ls -dt $2/parcels/* | head -n 1) $2/parcels/latest
+    ln -s $6/$(dirname $(ls -dt $2/parcels/*/*.parcel | head -n 1)) $2/parcels/latest
   fi
 }
 
