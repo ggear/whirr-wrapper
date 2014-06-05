@@ -1,11 +1,17 @@
-#!/bin/sh
+#!/bin/bash
 
-CMURL=$(whirr list-services | grep http | awk '{print $4}')"/"
+LIST="$(whirr list-services)"
 
-if [ "$CMURL" != "/" ]; then
-  sed -i -e "s|ProxyPass / http.*|ProxyPass / $CMURL|" /etc/httpd/conf/httpd.conf
-  sed -i -e "s|ProxyPassReverse / http.*|ProxyPassReverse / $CMURL|" /etc/httpd/conf/httpd.conf
-  sed -i -e "s|ProxyPass /cmf http.*|ProxyPass /cmf $CMURL|" /etc/httpd/conf/httpd.conf
-  sed -i -e "s|ProxyPassReverse /cmf http.*|ProxyPassReverse /cmf $CMURL|" /etc/httpd/conf/httpd.conf
-  service httpd reload > /dev/null
-fi
+function updateProxy() {
+  URL=$(echo -e "$LIST" | grep http | grep $1 | awk '{print $4}')"/"
+  if [ "$URL" != "/" ]; then
+    sed -i -e "s|ProxyPass / http.*$1/|ProxyPass / $URL|" /etc/httpd/conf/httpd.conf
+    sed -i -e "s|ProxyPassReverse / http.*$1/|ProxyPassReverse / $URL|" /etc/httpd/conf/httpd.conf
+  fi
+}
+
+updateProxy 7180
+updateProxy 7187
+updateProxy 8888
+
+service httpd reload > /dev/null

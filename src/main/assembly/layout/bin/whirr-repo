@@ -11,6 +11,7 @@ mirror_repo() {
   cd $6/$2/$5
   wget -e robots=off -N $4/$2/$5/RPM-GPG-KEY-cloudera
   cd $6
+  wget -e robots=off -N -np -nH -r -l 4 -A noarch.rpm,64.rpm,gz,asc,xml $4/$2/$5/
   wget -e robots=off -N -np -nH -r -l 2 -A rpm $4/$2/$5/$3/RPMS/
   [ ! -L $7/$1 ] && ln -s $6/$2/$5/$3 $7/$1
   cd $7/$1
@@ -42,7 +43,7 @@ mirror_repo cloudera-spark spark 1 http://archive-primary.cloudera.com redhat/6/
 mirror_repo cloudera-accumulo accumulo 4 http://archive-primary.cloudera.com redhat/6/x86_64/cdh  $DIR_BASE_REPO $DIR_BASE_TMP
 mirror_repo cloudera-sqoop-connectors sqoop-connectors 1 http://archive-primary.cloudera.com redhat/6/x86_64/sqoop  $DIR_BASE_REPO $DIR_BASE_TMP
 
-find $DIR_BASE -type d -exec chmod -v 755 {} \;
 find $DIR_BASE -type f -exec chmod -v 644 {} \;
+find $DIR_BASE -type d -exec chmod -v 755 {} \;
 
 rm -rf $DIR_BASE_TMP/cloudera-*
