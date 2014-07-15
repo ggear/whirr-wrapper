@@ -11,8 +11,8 @@ mirror_repo() {
   cd $6/$2/$5
   wget -e robots=off -N $4/$2/$5/RPM-GPG-KEY-cloudera
   cd $6
-  wget -e robots=off -N -np -nH -r -l 4 -A noarch.rpm,64.rpm,gz,asc,xml $4/$2/$5/
-  wget -e robots=off -N -np -nH -r -l 2 -A rpm $4/$2/$5/$3/RPMS/
+  wget --wait=2 --waitretry=10 --random-wait --timeout=4 -e robots=off -N -np -nH -r -l 4 -A noarch.rpm,64.rpm,gz,asc,xml $4/$2/$5/
+  wget --wait=2 --waitretry=10 --random-wait --timeout=4 -e robots=off -N -np -nH -r -l 2 -A rpm $4/$2/$5/$3/RPMS/
   [ ! -L $7/$1 ] && ln -s $6/$2/$5/$3 $7/$1
   cd $7/$1
   createrepo .
@@ -21,9 +21,9 @@ mirror_repo() {
     cd $6
     rm -rf $2/parcels/latest
     if $ALL_PARCELS ; then
-      wget -e robots=off -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9]*" -A json,el6.parcel $4/$2/parcels/
+      wget --wait=2 --waitretry=10 --random-wait --timeout=4 -e robots=off -N -np -nH -r -l 2 -I "/*/*/[0-9].[0-9]*" -A json,el6.parcel $4/$2/parcels/
     else
-      wget -e robots=off -N -np -nH -r -l 2 -A json,el6.parcel $4/$2/parcels/latest/
+      wget --wait=2 --waitretry=10 --random-wait --timeout=4 -e robots=off -N -np -nH -r -l 2 -A json,el6.parcel $4/$2/parcels/latest/
       mv $6/$2/parcels/latest $6/$2/parcels/$3      
     fi    
     ln -s $6/$(dirname $(ls -dt $2/parcels/*/*.parcel | head -n 1)) $2/parcels/latest
